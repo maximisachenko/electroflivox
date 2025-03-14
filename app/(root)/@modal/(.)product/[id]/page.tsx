@@ -1,6 +1,19 @@
 import { prisma } from '@/prisma/prisma-client';
 import { ChooseProductModal } from '@/shared/components/shared/modals';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
+
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `Product ${params.id}`,
+  };
+}
 
 export default async function ProductModalPage({
   params,
@@ -11,7 +24,7 @@ export default async function ProductModalPage({
 
   const product = await prisma.product.findFirst({
     where: {
-      id: Number(id),
+      id: parseInt(id, 10), // Преобразуем строку в число
     },
     include: {
       services: {
