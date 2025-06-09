@@ -24,7 +24,7 @@ export const FormInput: React.FC<Props> = ({
   const formContext = useFormContext();
   if (!formContext) {
     console.warn('FormInput must be used within a FormProvider');
-    return null; // Или отобразить заглушку
+    return null;
   }
 
   const { register, formState, watch, setValue } = formContext;

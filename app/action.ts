@@ -4,7 +4,7 @@ import { prisma } from '@/prisma/prisma-client';
 import { CheckoutFormValues } from './(checkout)/checkout/checkout-form-schema';
 import { OrderStatus, Prisma } from '@prisma/client';
 import { cookies } from 'next/headers';
-import { sendEmail } from '@/shared/lib';
+import { createPayment, sendEmail } from '@/shared/lib';
 import { PayOrderTemplate } from '@/shared/components/shared/email-templates/pay-order';
 import { getUserSession } from '@/shared/lib/get-user-session';
 import { hashSync } from 'bcrypt';
@@ -76,7 +76,26 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    const paymentUrl = 'https://imgur.com/a/JRH8M7E';
+    const paymentData = await createPayment({
+      description: 'Оплата заказа #' + order.id,
+      amount: order.totalAmount,
+      orderId: order.id,
+    });
+
+    if (!paymentData) {
+      throw new Error('Payment data not found');
+    }
+
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentData.id,
+      },
+    });
+
+    const paymentUrl = paymentData.confirmation.confirmation_url;
 
     await sendEmail(
       data.email,

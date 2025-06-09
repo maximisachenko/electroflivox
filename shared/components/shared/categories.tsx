@@ -62,13 +62,7 @@ export const Categories: React.FC<Props> = ({ items, className }) => {
     >
       {/* Фон активной категории */}
       <div
-        className="absolute bg-white rounded-2xl shadow-md shadow-gray-200"
-        style={{
-          height: '44px',
-          width: `calc(100% / ${items.length})`, // Ширина фона равна ширине одной категории
-          left: `${(items.findIndex((cat) => cat.id === categoryActiveId) * 100) / items.length}%`,
-          transition: 'left 0.3s ease', // Плавный переход
-        }}
+        className="absolute bg-white rounded-2xl shadow-md shadow-gray-200 h-11"
       />
 
       {/* Список категорий */}
