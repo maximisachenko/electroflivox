@@ -4,23 +4,24 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
   return {
-    title: `Product ${params.id}`,
+    title: `Product ${id}`,
   };
 }
 
 export default async function ProductModalPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
 
   const product = await prisma.product.findFirst({
     where: {

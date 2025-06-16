@@ -24,7 +24,7 @@ export const ChooseProductModal: React.FC<Props> = ({ product, className }) => {
       <DialogContent
         className={cn(
           className,
-          'p-0 w-[1060px] max-w-[1060px] min-h-[500px] bg-white overflow-hidden'
+          'p-0 w-[1060px] max-w-[1060px] h-[700px] max-h-[700px] bg-white overflow-hidden'
         )}
       >
         <ProductForm product={product} />

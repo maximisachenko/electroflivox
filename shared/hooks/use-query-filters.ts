@@ -10,7 +10,6 @@ export const useQueryFilters = (filters: Filters) => {
   React.useEffect(() => {
     const params: Record<string, any> = {
       ...filters.prices,
-      guarantees: Array.from(filters.guarantees || []),
       manufacturer: Array.from(filters.selectedManufacturer || []),
     };
 

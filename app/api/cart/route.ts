@@ -4,6 +4,8 @@ import crypto from 'crypto';
 import { findOrCreateCart } from '@/shared/lib';
 import { CreateCartItemValues } from '@/shared/services/dto/cart-dto';
 import { updateCartTotalAmount } from '@/shared/lib/update-cart-total-amount';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/shared/constants/auth-options';
 
 export async function GET(req: NextRequest) {
   try {
@@ -50,6 +52,15 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return NextResponse.json(
+        { message: 'Необходимо авторизоваться' },
+        { status: 401 }
+      );
+    }
+
     let token = req.cookies.get('cartToken')?.value;
 
     if (!token) {

@@ -27,26 +27,53 @@ export const authOptions: AuthOptions = {
         password: { label: 'Пароль', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
+        if (!credentials) {
+          console.log('No credentials provided');
+          return null;
+        }
+
+        console.log('Attempting login with:', credentials.email);
 
         const user = await prisma.user.findFirst({
           where: { email: credentials.email },
         });
 
-        if (
-          !user ||
-          !(await compare(credentials.password, user.password)) ||
-          !user.verified
-        ) {
+        if (!user) {
+          console.log('User not found');
           return null;
         }
 
-        return {
+        console.log('User found:', {
           id: user.id,
           email: user.email,
-          name: user.fullName,
-          role: user.role,
-        };
+          hasPassword: !!user.password,
+          passwordLength: user.password?.length,
+        });
+
+        try {
+          const isPasswordValid = await compare(
+            credentials.password,
+            user.password
+          );
+          console.log('Password validation:', isPasswordValid);
+          console.log('Input password:', credentials.password);
+          console.log('Stored password hash:', user.password);
+
+          if (!isPasswordValid) {
+            console.log('Invalid password');
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.fullName,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error('Error comparing passwords:', error);
+          return null;
+        }
       },
     }),
   ],

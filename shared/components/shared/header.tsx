@@ -5,7 +5,7 @@ import { Container } from './container';
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '../ui';
-import { ArrowRight, Router, ShoppingCart, User } from 'lucide-react';
+import { ArrowRight, Router, ShoppingCart, User, Shield, Info } from 'lucide-react';
 import Link from 'next/link';
 import { SearchInput } from './search-input';
 import { CartButton } from './cart-button';
@@ -16,7 +16,6 @@ import { SearchParamsContext } from 'next/dist/shared/lib/hooks-client-context.s
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { BackgroundInfo } from './background-info';
 
 interface Props {
   hasSearch?: boolean;
@@ -32,6 +31,8 @@ export const Header: React.FC<Props> = ({
   const [openAuthModal, setOpenAuthModal] = React.useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { data: session } = useSession();
+
   React.useEffect(() => {
     let toastMessage = '';
 
@@ -48,6 +49,7 @@ export const Header: React.FC<Props> = ({
       }, 1000);
     }
   });
+
   return (
     <header className={cn('border-b', className)}>
       <Container className="flex items-center justify-between py-8">
@@ -77,13 +79,24 @@ export const Header: React.FC<Props> = ({
 
         {/* Кнопка Войти */}
         <div className="flex item-center gap-4">
-          <BackgroundInfo />
+          <Link href="/about">
+            <Button variant="ghost" size="icon">
+              <Info className="h-5 w-5" />
+            </Button>
+          </Link>
           <AuthModal
             open={openAuthModal}
             onClose={() => setOpenAuthModal(false)}
           />
           <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
           {hasCart && <CartButton />}
+          {session?.user?.role === 'ADMIN' && (
+            <Link href="/admin">
+              <Button variant="ghost" size="icon">
+                <Shield className="h-5 w-5" />
+              </Button>
+            </Link>
+          )}
         </div>
       </Container>
     </header>

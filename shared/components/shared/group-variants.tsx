@@ -40,7 +40,9 @@ export const GroupVariants: React.FC<Props> = ({
           }}
           disabled={item.disabled}
           className={cn(
-            'flex-1 rounded-3xl px-4 py-2 text-sm font-medium duration-500',
+            'flex-1 rounded-3xl px-4 py-1 text-sm font-medium duration-500',
+            'flex items-center justify-center min-h-[40px] text-center',
+            'overflow-hidden whitespace-nowrap text-ellipsis',
             value === item.value
               ? 'bg-white text-gray-500 shadow-sm'
               : 'text-gray-500',

@@ -50,60 +50,19 @@ export const Filters: React.FC<Props> = ({ className }) => {
         />
       </div>*/}
 
-      <CheckboxFiltersGroup
-        title="Гарантия"
-        name="guarantees"
-        className="mb-[30px] mt-[30px]"
-        onClickCheckboxAction={filters.setGuarantees}
-        selected={filters.guarantees}
-        items={[
-          { text: 'Гарантия 1 год', value: '1' },
-          { text: 'Гарантия 2 года', value: '2' },
-          { text: 'Гарантия 5 лет', value: '5' },
-          { text: 'Гарантия 10 лет', value: '10' },
-        ]}
-      />
-
       {/* Фильтрация цены (от и до) */}
-
-      <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
+      <div className="mb-[30px]">
         <Title
-          text="Цена от и до"
-          size="xs"
-          className="text-fontColor font-bold"
+          text="Цена"
+          className="mb-[30px] text-lg text-fontColor font-bold"
         />
-        <div className="inline-flex gap-4 mt-4 mb-6">
-          <Input
-            type="number"
-            placeholder="0"
-            min={0}
-            max={1000}
-            value={String(filters.prices.priceFrom)}
-            onChange={(e) =>
-              filters.setPrices('priceFrom', Number(e.target.value))
-            }
-          />
-          <Input
-            type="number"
-            placeholder="1000"
-            min={100}
-            max={1000}
-            value={String(filters.prices.priceTo)}
-            onChange={(e) =>
-              filters.setPrices('priceTo', Number(e.target.value))
-            }
-          />
-        </div>
-
         <RangeSlider
           min={0}
-          max={1000}
-          step={10}
-          value={[
-            filters.prices.priceFrom || 0,
-            filters.prices.priceTo || 1000,
-          ]}
+          max={10000}
+          step={1}
+          value={[filters.prices.priceFrom || 0, filters.prices.priceTo || 10000]}
           onValueChange={updatePrices}
+          className="mb-[60px]"
         />
       </div>
 

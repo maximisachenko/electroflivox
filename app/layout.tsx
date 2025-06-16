@@ -9,6 +9,9 @@ const nunito = Nunito({
   weight: ['400', '500', '600', '700', '800', '900'],
 });
 
+// Отключаем статическую генерацию глобально
+export const dynamic = 'force-dynamic';
+
 export default function GlobalRootLayout({
   children,
 }: Readonly<{

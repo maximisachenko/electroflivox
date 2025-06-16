@@ -3,7 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const code = '';
+    const searchParams = req.nextUrl.searchParams;
+    const code = searchParams.get('code');
 
     if (!code) {
       return NextResponse.json({ error: 'Неверный код' }, { status: 400 });
@@ -34,9 +35,12 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return NextResponse.redirect(new URL('/?verified'));
+    return NextResponse.redirect(new URL('/?verified', req.url));
   } catch (error) {
-    console.error(error);
-    console.log('[VERIFY_GET] Server error', error);
+    console.error('[VERIFY_GET] Server error', error);
+    return NextResponse.json(
+      { error: 'Внутренняя ошибка сервера' },
+      { status: 500 }
+    );
   }
 }

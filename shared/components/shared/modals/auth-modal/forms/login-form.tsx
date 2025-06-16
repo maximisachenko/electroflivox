@@ -8,12 +8,14 @@ import { FormInput } from '../../../form/form-input';
 import { Button } from '@/shared/components/ui/button';
 import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   onClose?: VoidFunction;
 }
 
 export const LoginForm: React.FC<Props> = ({ onClose }) => {
+  const router = useRouter();
   const form = useForm<TFormLoginValues>({
     defaultValues: {
       email: '',
@@ -29,8 +31,15 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
         redirect: false,
       });
 
-      if (!resp?.ok) {
-        throw Error();
+      if (!resp) {
+        throw new Error('Не удалось получить ответ от сервера');
+      }
+
+      if (!resp.ok) {
+        if (resp.error === 'CredentialsSignin') {
+          throw new Error('Неверный email или пароль');
+        }
+        throw new Error(resp.error || 'Произошла ошибка при входе');
       }
 
       toast.success('Вы успешно вошли в аккаунт', {
@@ -38,11 +47,11 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
       });
 
       onClose?.();
-
-      console.log(resp);
+      router.refresh();
+      router.push('/profile');
     } catch (error) {
       console.error('Error [LOGIN]', error);
-      toast.error('Не удалось войти в аккаунт', {
+      toast.error(error instanceof Error ? error.message : 'Не удалось войти в аккаунт', {
         icon: '❌',
       });
     }
@@ -65,14 +74,14 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
         </div>
 
         <FormInput name="email" label="E-Mail" required />
-        <FormInput name="password" label="Пароль" required />
+        <FormInput name="password" label="Пароль" type="password" required />
 
         <Button
-          loading={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting}
           className="h-12 text-base"
           type="submit"
         >
-          Войти
+          {form.formState.isSubmitting ? 'Вход...' : 'Войти'}
         </Button>
       </form>
     </FormProvider>

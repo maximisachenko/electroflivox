@@ -16,7 +16,7 @@ async function up() {
       {
         fullName: 'Admin Test',
         email: 'admin@test.ru',
-        password: hashSync('111111', 10),
+        password: hashSync('admin', 10),
         verified: new Date(),
         role: 'ADMIN',
       },
@@ -44,7 +44,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -63,7 +62,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -82,7 +80,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -101,7 +98,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -120,7 +116,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -139,7 +134,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -158,7 +152,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -177,7 +170,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -196,7 +188,6 @@ async function up() {
         create: [
           { service: { connect: { id: 4 } } },
           { service: { connect: { id: 5 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -212,10 +203,7 @@ async function up() {
         '65 дюймов, OLED экран, 4K, HDR support, Dolby Vision, Dolby Atmos, Google Assistant и Alexa, webOS 22',
       categoryId: 2,
       services: {
-        create: [
-          { service: { connect: { id: 2 } } },
-          { service: { connect: { id: 6 } } },
-        ],
+        create: [{ service: { connect: { id: 2 } } }],
       },
     },
   });
@@ -230,10 +218,7 @@ async function up() {
         '55 дюймов, LED экран, 4K, HDR support, Dolby Vision, Ai Tools, webOS 22, Smart TV',
       categoryId: 2,
       services: {
-        create: [
-          { service: { connect: { id: 2 } } },
-          { service: { connect: { id: 6 } } },
-        ],
+        create: [{ service: { connect: { id: 2 } } }],
       },
     },
   });
@@ -251,7 +236,6 @@ async function up() {
         create: [
           { service: { connect: { id: 1 } } },
           { service: { connect: { id: 3 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -270,7 +254,6 @@ async function up() {
         create: [
           { service: { connect: { id: 1 } } },
           { service: { connect: { id: 3 } } },
-          { service: { connect: { id: 6 } } },
         ],
       },
     },
@@ -286,10 +269,7 @@ async function up() {
         '15.6" FHD, Intel Core i7, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 3070Ti, без ОС, 100% sRGB',
       categoryId: 4,
       services: {
-        create: [
-          { service: { connect: { id: 1 } } },
-          { service: { connect: { id: 6 } } },
-        ],
+        create: [{ service: { connect: { id: 1 } } }],
       },
     },
   });
@@ -304,10 +284,7 @@ async function up() {
         '15.6" FHD, Intel Core i9, 16GB RAM, 1TB SSD, NVIDIA GeForce RTX 5080, без ОС, 100% sRGB',
       categoryId: 4,
       services: {
-        create: [
-          { service: { connect: { id: 1 } } },
-          { service: { connect: { id: 6 } } },
-        ],
+        create: [{ service: { connect: { id: 1 } } }],
       },
     },
   });
@@ -321,9 +298,6 @@ async function up() {
       description:
         'Bluetooth функция, водоотталкивающая (IPX7), до 5 часов работы, встроенный микрофон для звонков',
       categoryId: 5,
-      services: {
-        create: [{ service: { connect: { id: 6 } } }],
-      },
     },
   });
 
@@ -336,9 +310,6 @@ async function up() {
       description:
         'Bluetooth функция, водоотталкивающая (IPX7), до 10 часов работы, встроенный микрофон для звонков',
       categoryId: 5,
-      services: {
-        create: [{ service: { connect: { id: 6 } } }],
-      },
     },
   });
 
@@ -351,9 +322,6 @@ async function up() {
       description:
         '23.8-дюймов, 2560x1440 (QHD), 75 Гц, технология IPS, поддержка AMD FreeSync для плавного изображения',
       categoryId: 6,
-      services: {
-        create: [{ service: { connect: { id: 6 } } }],
-      },
     },
   });
 
@@ -366,16 +334,14 @@ async function up() {
       description:
         '27 дюймов, 1920x1080 (FHD), 144 Гц, технология IPS, поддержка AMD FreeSync для плавного изображения',
       categoryId: 6,
-      services: {
-        create: [{ service: { connect: { id: 6 } } }],
-      },
     },
   });
 
+  // iPhone 16 Colors
   const iphone16blue = await prisma.variation.create({
     data: {
       productId: iphone16.id,
-      price: 700,
+      price: 4800,
       color: 'Blue',
     },
   });
@@ -383,7 +349,7 @@ async function up() {
   const iphone16red = await prisma.variation.create({
     data: {
       productId: iphone16.id,
-      price: 800,
+      price: 4800,
       color: 'Red',
     },
   });
@@ -391,15 +357,16 @@ async function up() {
   const iphone16green = await prisma.variation.create({
     data: {
       productId: iphone16.id,
-      price: 900,
+      price: 4800,
       color: 'Green',
     },
   });
 
+  // iPhone 16 Pro Colors
   const iphone16prowhitetitanium = await prisma.variation.create({
     data: {
       productId: iphone16pro.id,
-      price: 1000,
+      price: 5600,
       color: 'White Titanium',
     },
   });
@@ -407,15 +374,16 @@ async function up() {
   const iphone16problacktitanium = await prisma.variation.create({
     data: {
       productId: iphone16pro.id,
-      price: 1100,
+      price: 5600,
       color: 'Black Titanium',
     },
   });
 
+  // iPhone 16 Pro Max Colors
   const iphone16promaxwhitetitanium = await prisma.variation.create({
     data: {
       productId: iphone16promax.id,
-      price: 1000,
+      price: 6200,
       color: 'White Titanium',
     },
   });
@@ -423,15 +391,16 @@ async function up() {
   const iphone16promaxblacktitanium = await prisma.variation.create({
     data: {
       productId: iphone16promax.id,
-      price: 1100,
+      price: 6200,
       color: 'Black Titanium',
     },
   });
 
+  // iPhone 15 Colors
   const iphone15blue = await prisma.variation.create({
     data: {
       productId: iphone15.id,
-      price: 700,
+      price: 3900,
       color: 'Blue',
     },
   });
@@ -439,7 +408,7 @@ async function up() {
   const iphone15red = await prisma.variation.create({
     data: {
       productId: iphone15.id,
-      price: 800,
+      price: 3900,
       color: 'Red',
     },
   });
@@ -447,15 +416,16 @@ async function up() {
   const iphone15green = await prisma.variation.create({
     data: {
       productId: iphone15.id,
-      price: 900,
+      price: 3900,
       color: 'Green',
     },
   });
 
+  // iPhone 15 Pro Colors
   const iphone15prowhitetitanium = await prisma.variation.create({
     data: {
       productId: iphone15pro.id,
-      price: 1000,
+      price: 4700,
       color: 'White Titanium',
     },
   });
@@ -463,15 +433,16 @@ async function up() {
   const iphone15problacktitanium = await prisma.variation.create({
     data: {
       productId: iphone15pro.id,
-      price: 1100,
+      price: 4700,
       color: 'Black Titanium',
     },
   });
 
+  // iPhone 15 Pro Max Colors
   const iphone15promaxwhitetitanium = await prisma.variation.create({
     data: {
       productId: iphone15promax.id,
-      price: 1000,
+      price: 5300,
       color: 'White Titanium',
     },
   });
@@ -479,15 +450,16 @@ async function up() {
   const iphone15promaxblacktitanium = await prisma.variation.create({
     data: {
       productId: iphone15promax.id,
-      price: 1100,
+      price: 5300,
       color: 'Black Titanium',
     },
   });
 
+  // iPhone 14 Colors
   const iphone14blue = await prisma.variation.create({
     data: {
       productId: iphone14.id,
-      price: 700,
+      price: 3200,
       color: 'Blue',
     },
   });
@@ -495,7 +467,7 @@ async function up() {
   const iphone14red = await prisma.variation.create({
     data: {
       productId: iphone14.id,
-      price: 800,
+      price: 3200,
       color: 'Red',
     },
   });
@@ -503,15 +475,16 @@ async function up() {
   const iphone14green = await prisma.variation.create({
     data: {
       productId: iphone14.id,
-      price: 900,
+      price: 3200,
       color: 'Green',
     },
   });
 
+  // iPhone 14 Pro Colors
   const iphone14prowhitetitanium = await prisma.variation.create({
     data: {
       productId: iphone14pro.id,
-      price: 1000,
+      price: 4000,
       color: 'White Titanium',
     },
   });
@@ -519,15 +492,16 @@ async function up() {
   const iphone14problacktitanium = await prisma.variation.create({
     data: {
       productId: iphone14pro.id,
-      price: 1100,
+      price: 4000,
       color: 'Black Titanium',
     },
   });
 
+  // iPhone 14 Pro Max Colors
   const iphone14promaxwhitetitanium = await prisma.variation.create({
     data: {
       productId: iphone14promax.id,
-      price: 1000,
+      price: 4500,
       color: 'White Titanium',
     },
   });
@@ -535,89 +509,99 @@ async function up() {
   const iphone14promaxblacktitanium = await prisma.variation.create({
     data: {
       productId: iphone14promax.id,
-      price: 1100,
+      price: 4500,
       color: 'Black Titanium',
     },
   });
 
+  // LG 65Zoll 4K OLED Colors
   const lg65zoll4koledblack = await prisma.variation.create({
     data: {
       productId: lg65zoll4koled.id,
-      price: 1000,
+      price: 7000,
       color: 'Black',
     },
   });
 
+  // LG LED 55C47LA Colors
   const lgoled55c47lablack = await prisma.variation.create({
     data: {
       productId: lgoled55c47la.id,
-      price: 1000,
+      price: 3500,
       color: 'Black',
     },
   });
 
+  // Asus Vivobook 17 Colors
   const asusvivobook17white = await prisma.variation.create({
     data: {
       productId: asusvivobook17.id,
-      price: 1000,
+      price: 2500,
       color: 'White',
     },
   });
 
+  // Asus Vivobook 15 Laptop Colors
   const asusvivobook15laptopblack = await prisma.variation.create({
     data: {
       productId: asusvivobook15laptop.id,
-      price: 1000,
+      price: 2100,
       color: 'Black',
     },
   });
 
+  // Gaming PC Jola Vanilla i9-14900KF RTX-5080 Colors
   const gamingpcjolavanillei914900krtx5080white = await prisma.variation.create(
     {
       data: {
         productId: gamingpcjolavanillei914900krtx5080.id,
-        price: 1000,
+        price: 8000,
         color: 'White',
       },
     }
   );
 
+  // Gaming PC i-713700KF RTX-4070 Colors
   const gamingpci713700kfrtx4070black = await prisma.variation.create({
     data: {
       productId: gamingpci713700kfrtx4070.id,
-      price: 1000,
+      price: 6000,
       color: 'Black',
     },
   });
 
+  // JBL Go 2 Colors
   const jblgo2red = await prisma.variation.create({
     data: {
       productId: jblgo2.id,
-      price: 1000,
+      price: 150,
       color: 'Red',
     },
   });
 
+  // JBL Flip 5 Colors
   const jblflip5black = await prisma.variation.create({
     data: {
       productId: jblflip5.id,
-      price: 1000,
+      price: 350,
       color: 'Black',
     },
   });
 
+  // ACER Nitro E240QS Colors
   const acernitroe240qsblack = await prisma.variation.create({
     data: {
       productId: acernitroe240qs.id,
-      price: 1000,
+      price: 700,
       color: 'Black',
     },
   });
 
+  // Xiaomi 27A Colors
   const xiaomi27agray = await prisma.variation.create({
     data: {
       productId: xiaomi27a.id,
-      price: 1000,
+      price: 600,
       color: 'Gray',
     },
   });

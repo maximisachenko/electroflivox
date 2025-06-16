@@ -11,12 +11,13 @@ export const sendEmail = async (
 
   const { data, error } = await resend.emails.send({
     from: 'onboarding@resend.dev',
-    to: ['maximisachenko4599@gmail.com'],
-    subject: 'Hello world',
+    to: [to],
+    subject,
     react: template,
   });
 
   if (error) {
+    console.error('Error sending email:', error);
     throw error;
   }
 

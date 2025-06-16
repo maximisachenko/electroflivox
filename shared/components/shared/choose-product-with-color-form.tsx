@@ -36,6 +36,7 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
   const [selectedColor, setSelectedColor] = React.useState<string | null>(
     availableColors[0]?.value || null
   );
+
   const handleColorClick = (value: string) => {
     setSelectedColor(selectedColor === value ? null : value);
   };
@@ -47,6 +48,7 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
   const currentVariationId = variations.find(
     (variation) => variation.color === selectedColor
   )?.id;
+
   const selectedServicesNames = services
     .filter((service) => selectedServices.has(service.id))
     .map((service) => service.name)
@@ -59,11 +61,10 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
     return `${guarantee} лет`;
   };
 
-  const textDetails = `${name}, цвет ${selectedColor || 'не выбран'}, гарантия ${getGuaranteeText(guarantee)}, бесплатная доставка${
-    selectedServicesNames
-      ? `, дополнительные услуги: ${selectedServicesNames}`
-      : ''
-  }`;
+  const textDetails = `${name}, цвет ${selectedColor || 'не выбран'}, гарантия ${getGuaranteeText(guarantee)}, бесплатная доставка${selectedServicesNames
+    ? `, дополнительные услуги: ${selectedServicesNames}`
+    : ''
+    }`;
 
   const productPrice =
     variations.find((variation) => variation.color === selectedColor)?.price ||
@@ -82,24 +83,29 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
   };
 
   return (
-    <div className={cn(className, 'flex flex-1')}>
+    <div className={cn(className, 'flex flex-col md:flex-row flex-1 h-full gap-4 sm:gap-8')}>
       <ProductWithColorImage
         imageUrl={imageUrl}
         color={selectedColor || ''}
         productName={name}
+        className="w-full md:w-auto mb-4 md:mb-0"
       />
-      <div className="w-[490px] bg-[#f7f6f5] p-7">
+      <div className="w-full md:w-[490px] bg-[#f7f6f5] p-4 sm:p-7 flex flex-col">
         <Title text={name} size="md" className="font-extrabold mb-1" />
-        <p className="text-gray-400">{textDetails}</p>
-        <div className="flex flex-col gap-4 mt-8">
-          <GroupVariants
-            items={availableColors}
-            value={selectedColor ? String(selectedColor) : undefined}
-            onClick={handleColorClick}
-          />
+        <p className="text-gray-400 text-sm md:text-base">{textDetails}</p>
+        <div className="flex flex-col gap-4 mt-6">
+          <div>
+            <Title text="Цвет" size="sm" className="font-bold mb-2" />
+            <GroupVariants
+              items={availableColors}
+              value={selectedColor ? String(selectedColor) : undefined}
+              onClick={handleColorClick}
+            />
+          </div>
         </div>
-        <div className="bg-gray-50 pl-5 pr-5 pt-3 pb-7 rounded-md h-[350px] overflow-auto scrollbar mt-7">
-          <div className="grid grid-cols-3 gap-3">
+
+        <div className="bg-gray-50 pl-3 pr-3 sm:pl-5 sm:pr-5 pt-3 pb-7 rounded-md h-[220px] md:h-[270px] overflow-auto scrollbar mt-7 mb-10">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
             {services.length > 0 ? (
               services.map((service) => (
                 <ServiceItem
@@ -112,7 +118,7 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
                 />
               ))
             ) : (
-              <p>Нет доступных услуг для этого продукта</p>
+              <div className="text-center text-gray-400 flex items-center justify-center h-full">Нет доступных услуг для этого продукта</div>
             )}
           </div>
         </div>
@@ -120,7 +126,8 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
         <Button
           loading={loading}
           onClick={handleClickAdd}
-          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+          disabled={!selectedColor}
+          className="h-[48px] md:h-[55px] px-6 md:px-10 text-base rounded-[18px] w-full mt-auto"
         >
           Добавить в корзину за {totalPrice} BYN
         </Button>

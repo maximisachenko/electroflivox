@@ -10,17 +10,19 @@ interface Props {
   totalAmount: number;
   loading?: boolean;
   className?: string;
+  deliveryCost: number;
 }
 
-const VAT = 15;
-const DELIVERY_PRICE = 250;
+const VAT = 2;
+
 export const CheckoutSidebar: React.FC<Props> = ({
   className,
   totalAmount,
   loading,
+  deliveryCost,
 }) => {
   const vatPrice = (totalAmount * VAT) / 100;
-  const totalPrice = totalAmount + vatPrice + DELIVERY_PRICE;
+  const totalPrice = totalAmount + vatPrice + deliveryCost;
 
   return (
     <div className={cn(className)}>
@@ -69,7 +71,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
             loading ? (
               <Skeleton className="w-24 h-6" />
             ) : (
-              `${DELIVERY_PRICE} BYN`
+              `${deliveryCost} BYN`
             )
           }
         />
@@ -79,7 +81,7 @@ export const CheckoutSidebar: React.FC<Props> = ({
           type="submit"
           className="w-full h-14 rounded-2xl mt-6 text-base font-bold"
         >
-          Перейти к оплате
+          Оформить заказ
           <ArrowRight className="w-5 ml-2" />
         </Button>
       </WhiteBlock>

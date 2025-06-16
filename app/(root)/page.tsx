@@ -6,13 +6,18 @@ import {
   ProductsList,
 } from '@/shared/components/shared';
 import { findProducts, GetSearchParams } from '@/shared/lib/find-products';
+import { ChatPopup } from '@/shared/components/shared/chat-popup/chat-popup';
+import { Suspense } from 'react';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Home({
   searchParams,
 }: {
-  searchParams: GetSearchParams;
+  searchParams: Promise<GetSearchParams>;
 }) {
-  const categories = await findProducts(searchParams);
+  const resolvedSearchParams = await searchParams;
+  const categories = await findProducts(resolvedSearchParams);
 
   return (
     <>
@@ -24,7 +29,9 @@ export default async function Home({
         />
       </Container>
 
-      <TopBar categories={categories} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TopBar categories={categories} />
+      </Suspense>
 
       <Container className="pb-14 mt-9">
         <div className="flex gap-[80px]">
@@ -51,6 +58,8 @@ export default async function Home({
           </div>
         </div>
       </Container>
+
+      <ChatPopup />
     </>
   );
 }

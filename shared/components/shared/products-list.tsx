@@ -44,9 +44,9 @@ export const ProductsList: React.FC<Props> = ({
       <Title
         text={title}
         size="lg"
-        className="font-extrabold mb-5 text-fontColor"
+        className="font-extrabold mb-5 text-fontColor px-2 sm:px-0"
       />
-      <div className={cn('grid grid-cols-3 gap-[50px]', listClassName)}>
+      <div className={cn('grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-10', listClassName)}>
         {items.map((product) => (
           <ProductCard
             key={product.id}

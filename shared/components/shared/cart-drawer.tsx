@@ -105,10 +105,10 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                       details={
                         item.color && item.guarantee
                           ? getCartItemDetails(
-                              item.services,
-                              item.color,
-                              item.guarantee
-                            )
+                            item.services,
+                            item.color,
+                            item.guarantee
+                          )
                           : ''
                       }
                       onClickCountButton={(type) =>

@@ -21,10 +21,13 @@ model User {
 
     cart Cart?
     orders Order[]
+    messages Message[]
     verificationCode VerificationCode?
 
     createAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    chatMessages ChatMessage[]
 }
 
 model Category {
@@ -79,7 +82,7 @@ model Variation {
     id Int @id @default(autoincrement())
 
     price Int
-    color String
+    color String?
     gb String?
     ram String?
     cpu String?
@@ -143,9 +146,8 @@ model Order {
 
     totalAmount Int
     status OrderStatus
-    paymentId String?
-
     items Json
+    deliveryMethod String @default("belpost")
 
     fullName String
     address String
@@ -153,8 +155,13 @@ model Order {
     phone String
     comment String?
 
+    messages Message[]
+
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    chatMessages ChatMessage[]
+    contactInfo ContactInfo?
 }
 
 model VerificationCode {
@@ -170,9 +177,60 @@ model VerificationCode {
     @@unique([userId, code])
 }
 
+model Message {
+    id Int @id @default(autoincrement())
+    
+    order Order @relation(fields: [orderId], references: [id])
+    orderId Int
+
+    user User? @relation(fields: [userId], references: [id])
+    userId Int?
+
+    content String
+    isFromAdmin Boolean @default(false)
+    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model ChatMessage {
+  id         Int      @id @default(autoincrement())
+  type       String   // 'order' или 'support'
+  orderId    Int?     // ID заказа, если сообщение связано с заказом
+  name       String
+  email      String
+  message    String
+  userId     Int?     // ID пользователя, если он авторизован
+  isFromAdmin Boolean @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  order      Order?   @relation(fields: [orderId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id])
+
+  @@index([orderId])
+  @@index([userId])
+}
+
+model ContactInfo {
+    id Int @id @default(autoincrement())
+    orderId Int @unique
+    firstName String
+    lastName String
+    email String
+    phone String
+    city String
+    postIndex String
+    order Order @relation(fields: [orderId], references: [id])
+}
+
 enum OrderStatus {
     PENDING
-    SUCCEEDED
+    PROCESSING
+    COLLECTING
+    COLLECTED
+    SHIPPED
+    COMPLETED
     CANCELLED
 }
 

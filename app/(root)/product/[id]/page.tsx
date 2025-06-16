@@ -1,10 +1,12 @@
 import { Container, ProductForm } from '@/shared/components/shared';
 import { prisma } from '@/prisma/prisma-client';
+
 export default async function ProductPage({
-  params: { id },
+  params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const product = await prisma.product.findUnique({
     where: { id: Number(id) },
     include: {

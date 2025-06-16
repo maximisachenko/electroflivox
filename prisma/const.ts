@@ -29,36 +29,31 @@ export const categories = [
 export const services = [
   {
     name: 'Установка ОС',
-    price: 99,
+    price: 20,
     imageUrl: '/serviceos.png',
   },
 
   {
     name: 'Установка и настройка',
-    price: 100,
+    price: 40,
     imageUrl: '/helpwithsetup.png',
   },
 
   {
     name: 'Чехол',
-    price: 100,
+    price: 10,
     imageUrl: '/notebookchechol.png',
   },
 
   {
     name: 'Защитное стекло',
-    price: 100,
+    price: 10,
     imageUrl: '/defendglass.png',
   },
 
   {
     name: 'Силиконовый чехол',
-    price: 100,
+    price: 5,
     imageUrl: '/chechol.png',
-  },
-  {
-    name: 'Срочная доставка',
-    price: 600,
-    imageUrl: '/dostavka.png',
   },
 ].map((obj, index) => ({ id: index + 1, ...obj }));
