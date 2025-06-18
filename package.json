@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "build:fast": "NEXT_BUILD_IGNORE_TYPE_ERRORS=true NEXT_BUILD_IGNORE_ESLINT_ERRORS=true next build",
     "start": "next start",
     "prisma:push": "prisma db push",
