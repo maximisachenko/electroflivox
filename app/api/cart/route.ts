@@ -9,19 +9,21 @@ import { authOptions } from '@/shared/constants/auth-options';
 
 export async function GET(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
     const token = req.cookies.get('cartToken')?.value;
 
-    if (!token) {
+    if (!session && !token) {
       return NextResponse.json({ totalAmount: 0, items: [] });
     }
 
     const userCart = await prisma.cart.findFirst({
       where: {
         OR: [
-          {
-            token,
-          },
-        ],
+          // Если пользователь авторизован - ищем по userId
+          session?.user?.id ? { userId: session.user.id } : null,
+          // Если нет - по токену
+          token ? { token } : null,
+        ].filter(Boolean),
       },
       include: {
         items: {
