@@ -2,6 +2,7 @@ import React from 'react';
 import { useCartStore } from '../store/cart';
 import { CreateCartItemValues } from '../services/dto/cart-dto';
 import { CartStateItem } from '../lib/get-cart-details';
+import { useSession } from 'next-auth/react';
 
 type ReturnProps = {
   totalAmount: number;
@@ -13,6 +14,11 @@ type ReturnProps = {
 };
 
 export const useCart = (): ReturnProps => {
+  const { data: session, status } = useSession();
+  const [lastUserId, setLastUserId] = React.useState<string | undefined>(
+    undefined
+  );
+
   const {
     totalAmount,
     fetchCartItems,
@@ -21,13 +27,27 @@ export const useCart = (): ReturnProps => {
     removeCartItem,
     addCartItem,
     loading,
+    resetCart,
   } = useCartStore();
 
+  // Отслеживаем смену пользователя
   React.useEffect(() => {
-    if (items.length === 0) {
+    const currentUserId = session?.user?.id;
+
+    // Если пользователь изменился, сбрасываем корзину
+    if (lastUserId !== undefined && lastUserId !== currentUserId) {
+      resetCart();
+    }
+
+    setLastUserId(currentUserId);
+  }, [session?.user?.id, lastUserId, resetCart]);
+
+  React.useEffect(() => {
+    // Загружаем корзину после готовности сессии
+    if (status !== 'loading') {
       fetchCartItems();
     }
-  }, [fetchCartItems]);
+  }, [fetchCartItems, status]);
 
   return {
     totalAmount,

@@ -40,10 +40,10 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
-      <SheetContent className="flex flex-col justify-between bg-cardBackground">
+      <SheetContent className="flex flex-col justify-between bg-cardBackground w-full sm:max-w-md">
         {items.length > 0 && (
-          <SheetHeader>
-            <SheetTitle>
+          <SheetHeader className="px-4 sm:px-6">
+            <SheetTitle className="text-base sm:text-lg">
               В корзине{' '}
               <span className="font-bold">
                 {items.length}{' '}
@@ -59,31 +59,32 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
 
         <div
           className={clsx(
-            'flex flex-col h-full',
+            'flex flex-col h-full px-4 sm:px-6',
             items.length === 0 && 'justify-center'
           )}
         >
           {!totalAmount && (
             <>
-              <div className="flex flex-col items-center justify-center w-72 mx-auto">
+              <div className="flex flex-col items-center justify-center max-w-xs mx-auto">
                 <Image
                   src="/empty_box.png"
-                  alt="Empty cart"
-                  width={120}
-                  height={120}
+                  alt="Пустая корзина"
+                  width={100}
+                  height={100}
+                  className="sm:w-[120px] sm:h-[120px]"
                 />
                 <Title
                   size="sm"
                   text="Корзина пустая"
-                  className="text-center font-bold my-2"
+                  className="text-center font-bold my-3 text-base sm:text-lg"
                 />
-                <p className="text-center text-neutral-500 mb-5">
+                <p className="text-center text-neutral-500 mb-5 text-sm sm:text-base">
                   Добавьте хотя бы один товар, чтобы совершить заказ
                 </p>
 
                 <SheetClose>
-                  <Button className="w-56 h-12 text-base" size="lg">
-                    <ArrowLeft className="w-5 mr-2" />
+                  <Button className="w-full max-w-56 h-10 sm:h-12 text-sm sm:text-base" size="lg">
+                    <ArrowLeft className="w-4 sm:w-5 mr-2" />
                     Вернуться назад
                   </Button>
                 </SheetClose>
@@ -93,7 +94,7 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
 
           {totalAmount > 0 && (
             <>
-              <div className="-mx-6 mt-5 overflow-auto flex-1 scrollbar">
+              <div className="-mx-4 sm:-mx-6 mt-5 overflow-auto flex-1 scrollbar">
                 {items.map((item) => (
                   <div className="mb-2" key={item.id}>
                     <CartDrawerItem
@@ -121,14 +122,14 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                 ))}
               </div>
 
-              <SheetFooter className="-mx-6 bg-white p-8">
+              <SheetFooter className="-mx-4 sm:-mx-6 bg-white p-4 sm:p-8">
                 <div className="w-full">
-                  <div className="flex mb-4">
-                    <span className="flex flex-1 text-lg text-neutral-500">
+                  <div className="flex mb-3 sm:mb-4">
+                    <span className="flex flex-1 text-base sm:text-lg text-neutral-500">
                       Итого
                       <div className="flex-1 border-b border-dashed border-b-neutral-200 relative -top-1 mx-2" />
                     </span>
-                    <span className="font-bold text-lg">{totalAmount} BYN</span>
+                    <span className="font-bold text-base sm:text-lg">{totalAmount} BYN</span>
                   </div>
 
                   <Link href="/checkout">
@@ -136,10 +137,10 @@ export const CartDrawer: React.FC<React.PropsWithChildren> = ({ children }) => {
                       onClick={() => setRedeirecting(true)}
                       loading={rederecting}
                       type="submit"
-                      className="w-full h-12 text-base"
+                      className="w-full h-10 sm:h-12 text-sm sm:text-base"
                     >
                       Оформить заказ
-                      <ArrowRight className="w-5 ml-2" />
+                      <ArrowRight className="w-4 sm:w-5 ml-2" />
                     </Button>
                   </Link>
                 </div>

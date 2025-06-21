@@ -83,19 +83,23 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
   };
 
   return (
-    <div className={cn(className, 'flex flex-col md:flex-row flex-1 h-full gap-4 sm:gap-8')}>
-      <ProductWithColorImage
-        imageUrl={imageUrl}
-        color={selectedColor || ''}
-        productName={name}
-        className="w-full md:w-auto mb-4 md:mb-0"
-      />
-      <div className="w-full md:w-[490px] bg-[#f7f6f5] p-4 sm:p-7 flex flex-col">
-        <Title text={name} size="md" className="font-extrabold mb-1" />
-        <p className="text-gray-400 text-sm md:text-base">{textDetails}</p>
-        <div className="flex flex-col gap-4 mt-6">
+    <div className={cn(className, 'flex flex-col lg:flex-row flex-1 h-full gap-4 lg:gap-8')}>
+      <div className="w-full lg:w-auto order-1 lg:order-1">
+        <ProductWithColorImage
+          imageUrl={imageUrl}
+          color={selectedColor || ''}
+          productName={name}
+          className="w-full max-w-md mx-auto lg:mx-0"
+        />
+      </div>
+
+      <div className="w-full lg:w-[490px] bg-[#f7f6f5] p-4 lg:p-7 flex flex-col order-2 lg:order-2">
+        <Title text={name} size="md" className="font-extrabold mb-2 lg:mb-1 text-lg lg:text-xl" />
+        <p className="text-gray-400 text-sm lg:text-base mb-4 lg:mb-0">{textDetails}</p>
+
+        <div className="flex flex-col gap-4 lg:gap-4 mt-4 lg:mt-6">
           <div>
-            <Title text="Цвет" size="sm" className="font-bold mb-2" />
+            <Title text="Цвет" size="sm" className="font-bold mb-3 lg:mb-2 text-base lg:text-sm" />
             <GroupVariants
               items={availableColors}
               value={selectedColor ? String(selectedColor) : undefined}
@@ -104,8 +108,9 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="bg-gray-50 pl-3 pr-3 sm:pl-5 sm:pr-5 pt-3 pb-7 rounded-md h-[220px] md:h-[270px] overflow-auto scrollbar mt-7 mb-10">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+        <div className="bg-gray-50 px-3 lg:px-5 py-4 lg:py-3 rounded-md overflow-auto scrollbar mt-6 lg:mt-7 mb-6 lg:mb-10 flex-1 lg:h-[270px]">
+          <Title text="Дополнительные услуги" size="sm" className="font-bold mb-3 text-base lg:text-sm" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-2">
             {services.length > 0 ? (
               services.map((service) => (
                 <ServiceItem
@@ -118,7 +123,9 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
                 />
               ))
             ) : (
-              <div className="text-center text-gray-400 flex items-center justify-center h-full">Нет доступных услуг для этого продукта</div>
+              <div className="col-span-full text-center text-gray-400 flex items-center justify-center py-8">
+                Нет доступных услуг для этого продукта
+              </div>
             )}
           </div>
         </div>
@@ -127,7 +134,7 @@ export const ChooseProductWithColorForm: React.FC<Props> = ({
           loading={loading}
           onClick={handleClickAdd}
           disabled={!selectedColor}
-          className="h-[48px] md:h-[55px] px-6 md:px-10 text-base rounded-[18px] w-full mt-auto"
+          className="h-12 lg:h-[55px] px-6 lg:px-10 text-sm lg:text-base rounded-[18px] w-full mt-auto"
         >
           Добавить в корзину за {totalPrice} BYN
         </Button>

@@ -70,10 +70,10 @@ export const LoginForm: React.FC<Props> = ({ onClose }) => {
               Введите свою почту, чтобы войти в аккаунт
             </p>
           </div>
-          <img src="/phone-icon.png" alt="phone-icon" width={60} height={60} />
+          <img src="/phone-icon.png" alt="Иконка телефона" width={60} height={60} />
         </div>
 
-        <FormInput name="email" label="E-Mail" required />
+        <FormInput name="email" label="Эл. почта" required />
         <FormInput name="password" label="Пароль" type="password" required />
 
         <Button

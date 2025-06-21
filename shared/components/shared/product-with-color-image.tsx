@@ -33,7 +33,7 @@ export const ProductWithColorImage: React.FC<Props> = ({
       <Image
         key={imageUrl}
         src={imageUrl}
-        alt="Product Image"
+        alt="Изображение товара"
         width={360}
         height={360}
         className={cn(

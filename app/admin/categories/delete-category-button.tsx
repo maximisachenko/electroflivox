@@ -14,6 +14,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
+import { Trash2, Loader2 } from "lucide-react";
 
 export function DeleteCategoryButton({ categoryId }: { categoryId: number }) {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -27,12 +28,12 @@ export function DeleteCategoryButton({ categoryId }: { categoryId: number }) {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to delete category");
+                throw new Error("Не удалось удалить категорию");
             }
 
             router.refresh();
         } catch (error) {
-            console.error("Error deleting category:", error);
+            console.error("Ошибка при удалении категории:", error);
         } finally {
             setIsDeleting(false);
         }
@@ -41,25 +42,45 @@ export function DeleteCategoryButton({ categoryId }: { categoryId: number }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="sm">
+                <Button
+                    variant="destructive"
+                    size="sm"
+                    className="w-full sm:w-auto"
+                >
+                    <Trash2 className="w-4 h-4 mr-2" />
                     Удалить
                 </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>Вы уверены?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                        Подтверждая действия Вы соглашаетесь с удалением этой записи из базы данных.
+            <AlertDialogContent className="w-[95vw] max-w-md mx-auto">
+                <AlertDialogHeader className="space-y-3">
+                    <AlertDialogTitle className="text-lg sm:text-xl">
+                        Подтвердите удаление
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-sm sm:text-base leading-relaxed">
+                        Вы действительно хотите удалить эту категорию? Это действие нельзя отменить,
+                        и категория будет полностью удалена из базы данных.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Отменить</AlertDialogCancel>
+                <AlertDialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
+                    <AlertDialogCancel className="w-full sm:w-auto">
+                        Отменить
+                    </AlertDialogCancel>
                     <AlertDialogAction
                         onClick={handleDelete}
                         disabled={isDeleting}
-                        className="bg-red-600 hover:bg-red-700"
+                        className="w-full sm:w-auto bg-red-600 hover:bg-red-700 focus:ring-red-500"
                     >
-                        {isDeleting ? "Deleting..." : "Delete"}
+                        {isDeleting ? (
+                            <>
+                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                Удаление...
+                            </>
+                        ) : (
+                            <>
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Удалить категорию
+                            </>
+                        )}
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

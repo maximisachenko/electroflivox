@@ -90,8 +90,8 @@ export default function CheckoutPage() {
 
   if (status === 'loading') {
     return (
-      <Container className="mt-10">
-        <div className="flex items-center justify-center min-h-[400px]">
+      <Container className="mt-4 sm:mt-6 lg:mt-10">
+        <div className="flex items-center justify-center min-h-[300px] sm:min-h-[400px]">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
         </div>
       </Container>
@@ -99,17 +99,17 @@ export default function CheckoutPage() {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Container className="mt-10">
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <Container className="mt-4 sm:mt-6 lg:mt-10">
         <Title
           text="Оформление заказа"
-          className="font-extrabold mb-8 text-fontColor text-[36px]"
+          className="font-extrabold mb-4 sm:mb-6 lg:mb-8 text-fontColor text-xl sm:text-2xl lg:text-[36px]"
         />
         <FormProvider {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex gap-10">
-              {/* Левая часть */}
-              <div className="flex flex-col gap-10 flex-1 mb-20">
+            <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-10">
+              {/* Основная часть */}
+              <div className="flex flex-col gap-4 sm:gap-6 lg:gap-10 flex-1 mb-6 sm:mb-8 lg:mb-20">
                 <CheckoutCart
                   items={items}
                   removeCartItem={removeCartItem}
@@ -117,26 +117,30 @@ export default function CheckoutPage() {
                   loading={loading}
                 />
 
-                <WhiteBlock className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Контактные данные</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                <WhiteBlock className="p-4 sm:p-5 lg:p-6">
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4 lg:mb-5">Контактные данные</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
                     {!isMinskDelivery && (
                       <>
                         <FormInput name="firstName" label="Имя" required />
                         <FormInput name="lastName" label="Фамилия" required />
-                        <FormInput name="email" label="Email" required />
+                        <div className="col-span-1 sm:col-span-2">
+                          <FormInput name="email" label="Эл. почта" required />
+                        </div>
                       </>
                     )}
-                    <FormInput name="phone" label="Телефон" required />
+                    <div className={cn("col-span-1", !isMinskDelivery && "sm:col-span-2")}>
+                      <FormInput name="phone" label="Телефон" required />
+                    </div>
                   </div>
                 </WhiteBlock>
 
-                <WhiteBlock className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Адрес доставки</h3>
-                  <div className="grid grid-cols-2 gap-4">
+                <WhiteBlock className="p-4 sm:p-5 lg:p-6">
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4 lg:mb-5">Адрес доставки</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:gap-5">
                     {!isMinskDelivery && (
                       <>
-                        <div className="col-span-2">
+                        <div className="col-span-1 sm:col-span-2">
                           <label className="text-sm font-medium mb-2 block">Область</label>
                           <Select
                             value={selectedRegion}
@@ -145,7 +149,7 @@ export default function CheckoutPage() {
                               form.setValue('city', '');
                             }}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="h-11 sm:h-12">
                               <SelectValue placeholder="Выберите область" />
                             </SelectTrigger>
                             <SelectContent>
@@ -158,13 +162,13 @@ export default function CheckoutPage() {
                           </Select>
                         </div>
 
-                        <div className="col-span-2">
+                        <div className="col-span-1 sm:col-span-2">
                           <label className="text-sm font-medium mb-2 block">Город</label>
                           <Select
                             value={form.watch('city')}
                             onValueChange={(value) => form.setValue('city', value)}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="h-11 sm:h-12">
                               <SelectValue placeholder="Выберите город" />
                             </SelectTrigger>
                             <SelectContent>
@@ -180,52 +184,59 @@ export default function CheckoutPage() {
                     )}
 
                     {!isMinskDelivery && (
-                      <div className="col-span-2">
+                      <div className="col-span-1 sm:col-span-2">
                         <FormInput name="postIndex" label="Почтовый индекс" required />
                       </div>
                     )}
-                    <div className="col-span-2">
+                    <div className="col-span-1 sm:col-span-2">
                       <FormInput name="address" label="Адрес" required />
                     </div>
                   </div>
                 </WhiteBlock>
 
-                <WhiteBlock className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Способ доставки</h3>
+                <WhiteBlock className="p-4 sm:p-5 lg:p-6">
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4 lg:mb-5">Способ доставки</h3>
                   <RadioGroup
                     defaultValue="belpost"
                     onValueChange={(value) => form.setValue('deliveryMethod', value as 'belpost' | 'europost' | 'minsk')}
-                    className="flex flex-col space-y-2"
+                    className="flex flex-col space-y-3 sm:space-y-4 lg:space-y-3"
                   >
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3">
                       <RadioGroupItem value="minsk" id="minsk" />
-                      <Label htmlFor="minsk">Доставка по Минску (бесплатно)</Label>
+                      <Label htmlFor="minsk" className="text-sm sm:text-base lg:text-base font-medium">
+                        Доставка по Минску (бесплатно)
+                      </Label>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3">
                       <RadioGroupItem value="belpost" id="belpost" />
-                      <Label htmlFor="belpost">Белпочта (5 BYN)</Label>
+                      <Label htmlFor="belpost" className="text-sm sm:text-base lg:text-base font-medium">
+                        Белпочта (5 BYN)
+                      </Label>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-3">
                       <RadioGroupItem value="europost" id="europost" />
-                      <Label htmlFor="europost">Европочта (7 BYN)</Label>
+                      <Label htmlFor="europost" className="text-sm sm:text-base lg:text-base font-medium">
+                        Европочта (7 BYN)
+                      </Label>
                     </div>
                   </RadioGroup>
                 </WhiteBlock>
 
-                <WhiteBlock className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Комментарий к заказу</h3>
-                  <FormInput name="comment" label="Комментарий" />
+                <WhiteBlock className="p-4 sm:p-5 lg:p-6">
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4 lg:mb-5">Комментарий к заказу</h3>
+                  <FormInput name="comment" label="Комментарий" placeholder="Дополнительные пожелания..." />
                 </WhiteBlock>
               </div>
 
-              {/* Правая часть */}
-              <div className="w-[450px]">
-                <CheckoutSidebar
-                  totalAmount={totalAmount}
-                  className="sticky top-4"
-                  loading={loading || submitting}
-                  deliveryCost={deliveryCost}
-                />
+              {/* Боковая панель - на мобильных показывается вверху */}
+              <div className="w-full lg:w-[400px] xl:w-[450px] order-first lg:order-last">
+                <div className="lg:sticky lg:top-4">
+                  <CheckoutSidebar
+                    totalAmount={totalAmount}
+                    loading={loading || submitting}
+                    deliveryCost={deliveryCost}
+                  />
+                </div>
               </div>
             </div>
           </form>

@@ -21,6 +21,9 @@ export interface CartState {
 
   /* Запрос на удаление товара из корзины */
   removeCartItem: (id: number) => Promise<void>;
+
+  /* Сброс состояния корзины */
+  resetCart: () => void;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
@@ -77,6 +80,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       set({ loading: false });
     }
   },
+
   addCartItem: async (values: CreateCartItemValues) => {
     try {
       set({ loading: true, error: false });
@@ -88,5 +92,14 @@ export const useCartStore = create<CartState>((set, get) => ({
     } finally {
       set({ loading: false });
     }
+  },
+
+  resetCart: () => {
+    set({
+      items: [],
+      totalAmount: 0,
+      error: false,
+      loading: false,
+    });
   },
 }));

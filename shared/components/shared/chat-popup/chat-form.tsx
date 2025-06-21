@@ -75,7 +75,7 @@ export const ChatForm: React.FC<Props> = ({ onClose }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
             >
                 <FormInput name="name" label="Ваше имя" required />
-                <FormInput name="email" label="Email" required />
+                <FormInput name="email" label="Эл. почта" required />
                 <div className="space-y-2">
                     <Label>Сообщение</Label>
                     <Textarea

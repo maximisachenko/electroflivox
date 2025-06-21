@@ -20,10 +20,10 @@ export async function GET(req: NextRequest) {
       where: {
         OR: [
           // Если пользователь авторизован - ищем по userId
-          session?.user?.id ? { userId: session.user.id } : null,
+          ...(session?.user?.id ? [{ userId: Number(session.user.id) }] : []),
           // Если нет - по токену
-          token ? { token } : null,
-        ].filter(Boolean),
+          ...(token ? [{ token }] : []),
+        ],
       },
       include: {
         items: {
@@ -55,21 +55,14 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return NextResponse.json(
-        { message: 'Необходимо авторизоваться' },
-        { status: 401 }
-      );
-    }
-
     let token = req.cookies.get('cartToken')?.value;
 
     if (!token) {
       token = crypto.randomUUID();
     }
 
-    const userCart = await findOrCreateCart(token);
+    // Передаем userId если пользователь авторизован
+    const userCart = await findOrCreateCart(token, session?.user?.id);
 
     const data = (await req.json()) as CreateCartItemValues;
 
@@ -94,12 +87,6 @@ export async function POST(req: NextRequest) {
           quantity: findCartItem.quantity + 1,
         },
       });
-
-      const updatedUserCart = await updateCartTotalAmount(token);
-
-      const resp = NextResponse.json(updatedUserCart);
-      resp.cookies.set('cartToken', token);
-      return resp;
     } else {
       await prisma.cartItem.create({
         data: {
@@ -113,7 +100,11 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const updatedUserCart = await updateCartTotalAmount(token);
+    // Передаем userId при обновлении суммы
+    const updatedUserCart = await updateCartTotalAmount(
+      token,
+      session?.user?.id
+    );
 
     const resp = NextResponse.json(updatedUserCart);
     resp.cookies.set('cartToken', token);

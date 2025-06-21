@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 
 export default function BackgroundInfo() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Загрузка...</div>}>
       <div className="p-6 bg-gray-50 rounded-lg shadow-md">
         <h1 className="text-3xl font-semibold text-gray-800 mb-4">
           Справочная информация магазина Flivox

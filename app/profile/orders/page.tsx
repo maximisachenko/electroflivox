@@ -14,6 +14,8 @@ import { OrderStatusBadge } from "@/shared/components/order-status-badge";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
+import { Header } from "@/shared/components/shared/header";
+import { Container } from "@/shared/components/shared/container";
 
 export default async function OrdersPage() {
     const session = await getServerSession(authOptions);
@@ -32,44 +34,77 @@ export default async function OrdersPage() {
     });
 
     return (
-        <div className="space-y-4">
-            <h1 className="text-2xl font-bold">Мои заказы</h1>
+        <>
+            <Header hasSearch={false} hasSearchInMobileMenu={false} />
+            <Container className="py-6 lg:py-8">
+                <div className="space-y-4 lg:space-y-6">
+                    <h1 className="text-xl lg:text-2xl font-bold">Мои заказы</h1>
 
-            <div className="bg-white rounded-lg shadow">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead>Order ID</TableHead>
-                            <TableHead>Date</TableHead>
-                            <TableHead>Total</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
+                    {/* Мобильная версия - карточки */}
+                    <div className="block lg:hidden space-y-4">
                         {orders.map((order) => (
-                            <TableRow key={order.id}>
-                                <TableCell>#{order.id}</TableCell>
-                                <TableCell>
-                                    {new Date(order.createdAt).toLocaleDateString()}
-                                </TableCell>
-                                <TableCell>{order.totalAmount.toFixed(2)} BYN</TableCell>
-                                <TableCell>
+                            <div key={order.id} className="bg-white rounded-lg shadow p-4 space-y-3">
+                                <div className="flex justify-between items-start">
+                                    <div className="space-y-1">
+                                        <h3 className="font-semibold">Заказ #{order.id}</h3>
+                                        <p className="text-sm text-gray-500">
+                                            {new Date(order.createdAt).toLocaleDateString()}
+                                        </p>
+                                    </div>
                                     <OrderStatusBadge status={order.status} />
-                                </TableCell>
-                                <TableCell className="text-right">
+                                </div>
+
+                                <div className="flex justify-between items-center pt-2 border-t">
+                                    <span className="font-medium text-lg">{order.totalAmount.toFixed(2)} BYN</span>
                                     <Link href={`/profile/orders/${order.id}/chat`}>
                                         <Button variant="outline" size="sm">
                                             <MessageSquare className="w-4 h-4 mr-2" />
                                             Чат
                                         </Button>
                                     </Link>
-                                </TableCell>
-                            </TableRow>
+                                </div>
+                            </div>
                         ))}
-                    </TableBody>
-                </Table>
-            </div>
-        </div>
+                    </div>
+
+                    {/* Десктопная версия - таблица */}
+                    <div className="hidden lg:block bg-white rounded-lg shadow overflow-x-auto">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>ID заказа</TableHead>
+                                    <TableHead>Дата</TableHead>
+                                    <TableHead>Сумма</TableHead>
+                                    <TableHead>Статус</TableHead>
+                                    <TableHead className="text-right">Действия</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {orders.map((order) => (
+                                    <TableRow key={order.id}>
+                                        <TableCell>#{order.id}</TableCell>
+                                        <TableCell className="whitespace-nowrap">
+                                            {new Date(order.createdAt).toLocaleDateString()}
+                                        </TableCell>
+                                        <TableCell className="whitespace-nowrap">{order.totalAmount.toFixed(2)} BYN</TableCell>
+                                        <TableCell>
+                                            <OrderStatusBadge status={order.status} />
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <Link href={`/profile/orders/${order.id}/chat`}>
+                                                <Button variant="outline" size="sm">
+                                                    <MessageSquare className="w-4 h-4 mr-2" />
+                                                    Чат
+                                                </Button>
+                                            </Link>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </div>
+                </div>
+            </Container>
+        </>
     );
 } 

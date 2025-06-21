@@ -23,22 +23,28 @@ export const ChooseProductForm: React.FC<Props> = ({
 }) => {
   const textDetails = '30 sm, top testo, 590g';
   const totalPrice = 100;
-  const size = 30;
 
   return (
-    <div className={cn(className, 'flex flex-1')}>
-      <ProductImage imageUrl={imageUrl} size={size} />
+    <div className={cn(className, 'flex flex-col lg:flex-row flex-1 gap-4 lg:gap-8')}>
+      {/* Изображение товара */}
+      <div className="w-full lg:w-auto order-1 lg:order-1">
+        <ProductImage
+          imageUrl={imageUrl}
+          className="w-full max-w-md mx-auto lg:mx-0"
+        />
+      </div>
 
-      <div className="w-[490px] bg-[#f7f6f5] p-7">
-        <Title text={name} size="md" className="font-extrabold mb-1" />
+      {/* Информация о товаре */}
+      <div className="w-full lg:w-[490px] bg-[#f7f6f5] p-4 lg:p-7 flex flex-col order-2 lg:order-2">
+        <Title text={name} size="md" className="font-extrabold mb-2 lg:mb-1 text-lg lg:text-xl" />
+        <p className="text-gray-400 text-sm lg:text-base mb-6 lg:mb-4">{textDetails}</p>
 
-        <p className="text-gray-400">{textDetails}</p>
         <Button
           loading={loading}
           onClick={onClickAdd}
-          className="h-[55px] px-10 text-base rounded-[18px] w-full mt-10"
+          className="h-12 lg:h-[55px] px-6 lg:px-10 text-sm lg:text-base rounded-[18px] w-full mt-auto"
         >
-          Добавить в корзину за {totalPrice} ₽
+          Добавить в корзину за {totalPrice} BYN
         </Button>
       </div>
     </div>

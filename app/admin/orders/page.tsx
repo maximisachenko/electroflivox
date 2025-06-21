@@ -45,10 +45,49 @@ export default async function OrdersPage() {
     return (
         <div className="space-y-4">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold">Заказы</h1>
+                <h1 className="text-xl lg:text-2xl font-bold">Заказы</h1>
             </div>
 
-            <div className="bg-white rounded-lg shadow">
+            {/* Мобильная версия - карточки */}
+            <div className="block lg:hidden space-y-4">
+                {orders.map((order) => (
+                    <div key={order.id} className="bg-white rounded-lg shadow p-4 space-y-3">
+                        <div className="flex justify-between items-start">
+                            <div className="space-y-1">
+                                <h3 className="font-semibold">Заказ #{order.id}</h3>
+                                <p className="text-sm text-gray-600">{order.user?.fullName || 'Гость'}</p>
+                                <p className="text-sm text-gray-500">
+                                    {new Date(order.createdAt).toLocaleDateString()}
+                                </p>
+                            </div>
+                            <OrderStatusBadge status={order.status} />
+                        </div>
+
+                        <div className="flex justify-between items-center pt-2 border-t">
+                            <span className="font-medium text-lg">{order.totalAmount.toFixed(2)} BYN</span>
+                            <div className="flex gap-2">
+                                <OrderDetailsModal
+                                    order={order}
+                                    products={products}
+                                    services={services}
+                                />
+                                <Link href={`/admin/orders/${order.id}/chat`}>
+                                    <Button variant="outline" size="sm">
+                                        <MessageSquare className="w-4 h-4" />
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+
+                        <div className="pt-2">
+                            <UpdateOrderStatusButton order={order} />
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Десктопная версия - таблица */}
+            <div className="hidden lg:block bg-white rounded-lg shadow overflow-x-auto">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -64,11 +103,11 @@ export default async function OrdersPage() {
                         {orders.map((order) => (
                             <TableRow key={order.id}>
                                 <TableCell>#{order.id}</TableCell>
-                                <TableCell>{order.user?.fullName || 'Гость'}</TableCell>
-                                <TableCell>
+                                <TableCell className="max-w-[150px] truncate">{order.user?.fullName || 'Гость'}</TableCell>
+                                <TableCell className="whitespace-nowrap">
                                     {new Date(order.createdAt).toLocaleDateString()}
                                 </TableCell>
-                                <TableCell>{order.totalAmount.toFixed(2)} BYN</TableCell>
+                                <TableCell className="whitespace-nowrap">{order.totalAmount.toFixed(2)} BYN</TableCell>
                                 <TableCell>
                                     <OrderStatusBadge status={order.status} />
                                 </TableCell>

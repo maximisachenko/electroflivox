@@ -30,18 +30,20 @@ export default async function ProfilePage() {
   }
 
   return (
-    <Container className="mt-10">
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Профиль</h1>
+    <Container className="mt-6 lg:mt-10">
+      <div className="space-y-4 lg:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <h1 className="text-xl lg:text-2xl font-bold">Профиль</h1>
           <Link href="/profile/orders">
-            <Button>
+            <Button className="w-full sm:w-auto">
               <ShoppingBag className="w-4 h-4 mr-2" />
               Мои заказы
             </Button>
           </Link>
         </div>
-        <ProfileForm data={user} />
+        <div className="bg-white rounded-lg p-4 lg:p-6 shadow-sm">
+          <ProfileForm data={user} />
+        </div>
       </div>
     </Container>
   );
