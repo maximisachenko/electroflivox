@@ -56,6 +56,8 @@ export default function CheckoutPage() {
       return;
     }
 
+    console.log('Form data before submission:', data);
+
     try {
       setSubmitting(true);
       const result = await createOrder(data);
@@ -197,7 +199,7 @@ export default function CheckoutPage() {
                 <WhiteBlock className="p-4 sm:p-5 lg:p-6">
                   <h3 className="text-base sm:text-lg lg:text-xl font-semibold mb-3 sm:mb-4 lg:mb-5">Способ доставки</h3>
                   <RadioGroup
-                    defaultValue="belpost"
+                    value={deliveryMethod}
                     onValueChange={(value) => form.setValue('deliveryMethod', value as 'belpost' | 'europost' | 'minsk')}
                     className="flex flex-col space-y-3 sm:space-y-4 lg:space-y-3"
                   >

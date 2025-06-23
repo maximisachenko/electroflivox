@@ -48,7 +48,7 @@ export const Header: React.FC<Props> = ({
     let toastMessage = '';
 
     if (searchParams.has('verified')) {
-      toastMessage = 'Вы успешно подтвердили свою электронную почту';
+      toastMessage = 'Добро пожаловать!';
     }
 
     if (toastMessage) {

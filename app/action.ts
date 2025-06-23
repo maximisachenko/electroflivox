@@ -8,7 +8,6 @@ import { createPayment, sendEmail } from '@/shared/lib';
 import { PayOrderTemplate } from '@/shared/components/shared/email-templates/pay-order';
 import { getUserSession } from '@/shared/lib/get-user-session';
 import { hashSync } from 'bcrypt';
-import { VerificationUserTemplate } from '@/shared/components/shared/email-templates/verification-user';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/shared/constants/auth-options';
 
@@ -76,7 +75,10 @@ export async function createOrder(data: CheckoutFormValues) {
         status: OrderStatus.PENDING,
         totalAmount: userCart.totalAmount,
         deliveryMethod: data.deliveryMethod,
-        fullName: `${data.firstName} ${data.lastName}`,
+        fullName:
+          data.firstName && data.lastName
+            ? `${data.firstName} ${data.lastName}`
+            : 'Клиент',
         email: data.email || '',
         phone: data.phone,
         address: data.address,
@@ -167,10 +169,6 @@ export async function registerUser(body: Prisma.UserCreateInput) {
     });
 
     if (user) {
-      if (!user.verified) {
-        throw new Error('Почта не подтверждена');
-      }
-
       throw new Error('Пользователь уже существует');
     }
 
@@ -182,7 +180,7 @@ export async function registerUser(body: Prisma.UserCreateInput) {
         fullName: body.fullName,
         email: body.email,
         password: hashedPassword,
-        verified: null,
+        verified: new Date(), // Сразу подтверждаем пользователя
       },
     });
 
@@ -191,22 +189,8 @@ export async function registerUser(body: Prisma.UserCreateInput) {
       email: createdUser.email,
     });
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-
-    await prisma.verificationCode.create({
-      data: {
-        code,
-        userId: createdUser.id,
-      },
-    });
-
-    await sendEmail(
-      createdUser.email,
-      'Flivox / 📝 Подтверждение регистрации',
-      await VerificationUserTemplate({
-        code,
-      })
-    );
+    // Больше не создаем код верификации и не отправляем email
+    console.log('User registered successfully without email verification');
   } catch (err) {
     console.log('Error [CREATE_USER]', err);
     throw err;

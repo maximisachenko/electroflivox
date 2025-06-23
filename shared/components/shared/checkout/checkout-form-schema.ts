@@ -25,14 +25,21 @@ export const checkoutFormSchema = z
     (data) => {
       // Если доставка не по Минску, то все поля обязательны
       if (data.deliveryMethod !== 'minsk') {
-        return (
-          !!data.firstName &&
-          !!data.lastName &&
-          !!data.email &&
-          !!data.region &&
-          !!data.city &&
-          !!data.postIndex
-        );
+        const fieldsToCheck = [
+          { field: data.firstName, name: 'firstName' },
+          { field: data.lastName, name: 'lastName' },
+          { field: data.email, name: 'email' },
+          { field: data.region, name: 'region' },
+          { field: data.city, name: 'city' },
+          { field: data.postIndex, name: 'postIndex' },
+        ];
+
+        for (const { field, name } of fieldsToCheck) {
+          if (!field || field.trim() === '') {
+            console.log(`Missing field: ${name}, value:`, field);
+            return false;
+          }
+        }
       }
       return true;
     },
